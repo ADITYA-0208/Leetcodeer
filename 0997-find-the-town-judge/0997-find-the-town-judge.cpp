@@ -2,6 +2,7 @@ class Solution {
 public:
     int findJudge(int n, vector<vector<int>>& trust) {
         vector<int>ans(n+1,0);
+        if(n==1)    return 1;
         for(int i=0;i<trust.size();i++){
                 ans[trust[i][1]]++;
         }
