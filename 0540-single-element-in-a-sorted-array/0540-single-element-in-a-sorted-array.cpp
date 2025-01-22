@@ -5,6 +5,8 @@ public:
         int n=nums.size();
         int h=n-1;
             if (n == 1) return nums[0];
+            if (nums[0] != nums[1]) return nums[0];
+    if (nums[n - 1] != nums[n - 2]) return nums[n - 1];
         while(l<=h){
             int mid=(l+h)/2;
             if(nums[mid]!=nums[mid-1] && nums[mid]!=nums[mid+1]){
