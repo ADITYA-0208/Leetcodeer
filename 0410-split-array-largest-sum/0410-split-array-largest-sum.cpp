@@ -1,37 +1,38 @@
 class Solution {
 public:
-    bool fucc(vector<int>& nums, int k,int tar){
-        int p=1;
-        int sum=0;
-        for(int i=0;i<nums.size();i++){
-            if(sum+nums[i]<tar){
-                 sum+=nums[i];
+    bool fucc(vector<int>& nums, int k, int tar) {
+        int p = 1;
+        int sum = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] > tar) return false;
+            if (sum + nums[i] > tar) {
+                p++; 
+                sum = nums[i];
+            } else {
+                sum += nums[i];
             }
-            else{
-               p++;
-               sum=0;
-            }
-            if(p>k)    return true;
+            if (p > k) return false; 
         }
-         return false;
+        return true; 
     }
+
     int splitArray(vector<int>& nums, int k) {
-        int low=*max_element(nums.begin(),nums.end());
-        int high=0;
-        if(nums.size()==k)  return low;
-        for(int i=0;i<nums.size();i++){
-            high+=nums[i];
-        }
-        int y=high;
-        int result=0;
-        while(low<=high){
-            int mid=(low+high)/2;
-            if(fucc(nums,k,mid)){
-                low=mid+1;
-                result=mid;
+        int low = *max_element(nums.begin(), nums.end());
+        int high = accumulate(nums.begin(), nums.end(), 0);
+        
+        if (nums.size() == k) return low; 
+        if (nums.size() < k) return -1; 
+        
+        int result = high;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (fucc(nums, k, mid)) {
+                result = mid; 
+                high = mid - 1; 
+            } else {
+                low = mid + 1; 
             }
-            else    high=mid-1;
         }
-        return max(result,y-result);
+        return result;
     }
 };
