@@ -7,13 +7,13 @@ public:
             if (nums[i] > tar) return false;
             if (sum + nums[i] > tar) {
                 p++; 
-                sum = nums[i];
+                sum = nums[i];// ye line samaj ni aai 
             } else {
                 sum += nums[i];
             }
-            if (p > k) return false; 
+            if (p > k) return true; 
         }
-        return true; 
+        return false; 
     }
 
     int splitArray(vector<int>& nums, int k) {
@@ -23,16 +23,17 @@ public:
         if (nums.size() == k) return low; 
         if (nums.size() < k) return -1; 
         
-        int result = high;
+       // int result = high;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             if (fucc(nums, k, mid)) {
-                result = mid; 
-                high = mid - 1; 
+                 low = mid + 1;
             } else {
-                low = mid + 1; 
+         //       result = mid; 
+                high = mid - 1;
+                 
             }
         }
-        return result;
+        return low;
     }
 };
