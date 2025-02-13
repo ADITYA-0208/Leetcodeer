@@ -1,17 +1,17 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
-         priority_queue<int, vector<int>, greater<int>> pq(nums.begin(), nums.end());
+        priority_queue<long long, vector<long long>, greater<long long>> pq(nums.begin(), nums.end());
         int counts= 0;
 
         while (pq.top() < k) {
             if (pq.size() < 2) return -1; // If not enough elements, return failure
 
-            int x = pq.top(); pq.pop();
-            int y = pq.top(); pq.pop();
+            long long x = pq.top(); pq.pop();
+            long long y = pq.top(); pq.pop();
 
-            int new_val = min(x, y) * 2 + max(x, y);
-            pq.push(new_val);
+            long long nx = min(x, y) * 2LL+ max(x, y);
+            pq.push(nx);
             counts++;
     }
 
