@@ -1,37 +1,24 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        stack<int> leftStack;  // Stack to store indices of '('
-        stack<int> starStack;  // Stack to store indices of '*'
-        
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] == '(') {
-                leftStack.push(i);  // Push the index of '(' onto the stack
-            } else if (s[i] == '*') {
-                starStack.push(i);  // Push the index of '*' onto the stack
-            } else {  // s[i] == ')'
-                if (!leftStack.empty()) {
-                    leftStack.pop();  // Match ')' with the most recent '('
-                } else if (!starStack.empty()) {
-                    starStack.pop();  // Match ')' with the most recent '*'
-                } else {
-                    return false;  // No matching '(' or '*' found
+        stack<int>left;
+        stack<int>star;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            if(s[i]=='(')    left.push(i);
+            else if(s[i]=='*')    star.push(i);
+            else{
+                if(!left.empty())   left.pop();
+                else if(!star.empty())  star.pop();
+                else    return false;
+            }}
+            while(!left.empty() && !star.empty()){
+                if(left.top()< star.top()){
+                    left.pop();
+                    star.pop();
                 }
             }
-        }
-        
-        // Now, we need to match any remaining '(' with '*' that come after them
-        while (!leftStack.empty() && !starStack.empty()) {
-            if (leftStack.top() < starStack.top()) {
-                leftStack.pop();
-                starStack.pop();
-            } else {
-                return false;  // No matching '*' found for the remaining '('
-            }
-        }
-        
-        // If there are no remaining '(', the string is valid
-        return leftStack.empty();
+        return left.empty();
     }
 };
 
