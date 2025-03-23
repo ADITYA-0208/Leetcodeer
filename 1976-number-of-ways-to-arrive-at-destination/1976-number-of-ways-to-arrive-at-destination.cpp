@@ -8,21 +8,24 @@ public:
         }
         int mod = 1e9 + 7;
         priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> q;
-        vector<long long> dist(n, INT_MAX), ways(n, 1);
-        
+        vector<long long> dist(n, LLONG_MAX), ways(n, 0);
+
         q.push({0, 0});
         dist[0] = 0;
         ways[0] = 1;
-        
+
         while (!q.empty()) {
             auto [dis, x] = q.top();
             q.pop();
+
+            if (dis > dist[x]) continue;  
+
             for (auto it : adj[x]) {
                 long long newDist = it.second + dis;
                 if (newDist < dist[it.first]) {
                     dist[it.first] = newDist;
                     q.push({newDist, it.first});
-                    ways[it.first] = ways[x];
+                    ways[it.first] = ways[x];  
                 } 
                 else if (newDist == dist[it.first]) {
                     ways[it.first] = (ways[it.first] + ways[x]) % mod;
