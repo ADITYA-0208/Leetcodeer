@@ -1,45 +1,25 @@
 class Solution {
 public:
-    int beauty(unordered_map<int,int>hash1){
-        int mini=INT_MAX;
-        int maxi=0;
-        for(auto [it,count]: hash1){
-            mini=min(mini,count);
-            maxi=max(maxi,count);
-        }
-        return maxi-mini;
-    }
+    int ans = 0;
     int beautySum(string s) {
-        int n = s.size();
-        vector<vector<int>> prefix(n + 1, vector<int>(26, 0));
-        int total = 0;
 
-        // Build prefix frequency array
-        for (int i = 0; i < n; i++) {
-            prefix[i + 1] = prefix[i];  // copy previous
-            prefix[i + 1][s[i] - 'a']++;
-        }
+        for (int i = 0; i < s.length(); i++) {
+            map<char, int> mp;
+            for (int j = i; j < s.length(); j++) {
+                // counting the frequency of each character
+                mp[s[j]]++;
 
-        // Check all substrings
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                vector<int> freq(26);
-                for (int ch = 0; ch < 26; ch++) {
-                    freq[ch] = prefix[j + 1][ch] - prefix[i][ch];
+                int leastFrequent = INT_MAX;
+                int mostFrequent = INT_MIN;
+                // Finding most frequent and least frequent chracter
+                for (auto it : mp) {
+                    leastFrequent = min(leastFrequent, it.second);
+                    mostFrequent = max(mostFrequent, it.second);
                 }
-
-                int maxFreq = 0, minFreq = INT_MAX;
-                for (int f : freq) {
-                    if (f > 0) {
-                        maxFreq = max(maxFreq, f);
-                        minFreq = min(minFreq, f);
-                    }
-                }
-
-                total += maxFreq - minFreq;
+                ans += mostFrequent - leastFrequent;
             }
         }
 
-        return total;
+        return ans;
     }
 };
